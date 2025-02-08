@@ -1,0 +1,47 @@
+/* Styles for a specific container */
+.custom-scroll-container {
+    overflow-y: hidden; /* Đảm bảo cuộn dọc */
+    overflow-x: hidden; /* Đảm bảo cuộn ngang nếu cần */
+    scroll-behavior: smooth;
+    position: relative;
+    padding: 10px;
+    transition: overflow 0.3s ease;
+}
+.custom-scroll-container:hover {
+    overflow-y: auto;
+}
+
+.custom-scroll-container:hover .hover-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1; /* Đặt lên trên các phần tử khác */
+}
+
+.custom-scroll-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px; /* Bo tròn thanh cuộn */
+}
+
+.custom-scroll-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    height: 8px;
+    border-radius: 10px; /* Bo tròn đường ray */
+}
+.custom-scroll-container::-webkit-scrollbar-thumb:hover {
+    overflow-y: auto;
+}
+
+/* Firefox */
+.custom-scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
