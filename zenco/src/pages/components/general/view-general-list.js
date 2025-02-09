@@ -44,6 +44,7 @@ const ViewGeneralList = ({ item, setBreadcrumbsList, tag }) => {
   const [totalPage, setTotalPage] = useState(2);
   const [generals, setGenerals] = useState([]);
   const [tags, setTags] = useState([]);
+  const [news, setNews] = useState([]);
 
   const handlePageChange = (value) => {
     setPage({ ...page, pageIndex: value });
@@ -58,6 +59,18 @@ const ViewGeneralList = ({ item, setBreadcrumbsList, tag }) => {
         if (response && response.data && response.data.DT) {
           setTotalPage(Math.ceil(response.data.total / page.pageSize));
           setGenerals(response.data.DT);
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+  };
+  const getNewsList = async () => {
+    if (item && item.alias !== "tin-tuc") {
+      try {
+        const response = await axiosInstance.get(`/general/tin-tuc?page=0&pageSize=10`);
+        if (response && response.data && response.data.DT) {
+          setNews(response.data.DT);
         }
       } catch (error) {
         console.log("error", error);
@@ -110,6 +123,7 @@ const ViewGeneralList = ({ item, setBreadcrumbsList, tag }) => {
   useEffect(() => {
     getGeneralList();
     getAllTag();
+    getNewsList();
   }, [page]);
 
   return (
@@ -123,7 +137,6 @@ const ViewGeneralList = ({ item, setBreadcrumbsList, tag }) => {
               minHeight: "100vh",
             }}
           >
-            qwerqwer
             {tags.length > 0 && (
               <Stack>
                 <TitleWithDivider title="Từ khóa" />
@@ -159,7 +172,7 @@ const ViewGeneralList = ({ item, setBreadcrumbsList, tag }) => {
             )}
             <Stack>
               <TitleWithDivider title="Danh mục sản phẩm" />
-              <Box p={2} style={{ marginBottom: "5000px" }}>
+              <Box p={2}>
                 {allCategory.map((tag, index) => {
                   return (
                     <NextLink key={index} href={tag.tenkhongdau}>
@@ -185,7 +198,7 @@ const ViewGeneralList = ({ item, setBreadcrumbsList, tag }) => {
                   );
                 })}
               </Box>
-              {item && item.alias !== "tin-tuc" && <CardNewList item={item} />}
+              {item && item.alias !== "tin-tuc" && <CardNewList news={news} />}
             </Stack>
           </Box>
         </Grid>
